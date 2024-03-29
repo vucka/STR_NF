@@ -1,0 +1,7 @@
+.nextflow*
+work/
+results/
+.DS_Store
+test/bats-*
+test/work/
+test/results/
