@@ -2,7 +2,6 @@ nextflow.enable.dsl=2
 
 process EXPANSIONHUNTER {
     tag "${sample_name}"
-    // publishDir "${params.input_dir}", mode: 'copy'
     publishDir "${params.output_dir}", mode: 'copy'
         
     input:
