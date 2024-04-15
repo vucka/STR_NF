@@ -1,0 +1,122 @@
+[
+    {
+        "LocusId": "TPOX",
+        "LocusStructure": "(AATG)*",
+        "ReferenceRegion": "2:1489568-1489738",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D3S1358",
+        "LocusStructure": "(TCTA)*",
+        "ReferenceRegion": "3:45540612-45540935",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "FGA",
+        "LocusStructure": "(CTT)*",
+        "ReferenceRegion": "4:154587511-154588005",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D5S818",
+        "LocusStructure": "(AGAT)*",
+        "ReferenceRegion": "5:123775262-123775937",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "CSF1PO",
+        "LocusStructure": "(AGAT)*",
+        "ReferenceRegion": "5:150076172-150076490",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D7S820",
+        "LocusStructure": "(GATA)*",
+        "ReferenceRegion": "7:84159945-84160482",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D8S1179",
+        "LocusStructure": "(TCTA)*",
+        "ReferenceRegion": "8:124894738-124895197",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "TH01",
+        "LocusStructure": "(AATG)*",
+        "ReferenceRegion": "11:2170711-2171770",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "vWA",
+        "LocusStructure": "TCTA(TCTG)*",
+        "ReferenceRegion": "12:5983825-5984174",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D13S317",
+        "LocusStructure": "(TATC)*",
+        "ReferenceRegion": "13:82147846-82148218",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D16S539",
+        "LocusStructure": "(GATA)*",
+        "ReferenceRegion": "16:86352320-86352912",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D18S51",
+        "LocusStructure": "(AGAA)*",
+        "ReferenceRegion": "18:63281248-63282317",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D21S11",
+        "LocusStructure": "(TCTA)*",
+        "ReferenceRegion": "21:19181866-19182275",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D1S1656",
+        "LocusStructure": "(TAGA)*",
+        "ReferenceRegion": "1:230769329-230769904",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D2S441",
+        "LocusStructure": "(TCTA)*",
+        "ReferenceRegion": "2:68011777-68012172",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D2S1338",
+        "LocusStructure": "(TGCC)*",
+        "ReferenceRegion": "2:218014601-218015031",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D10S1248",
+        "LocusStructure": "(GGAA)*",
+        "ReferenceRegion": "10:129294018-129294623",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D12S391",
+        "LocusStructure": "(AGAT)*",
+        "ReferenceRegion": "12:12296826-12297399",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D19S433",
+        "LocusStructure": "AAGGAAAGAAGGTAGG(AAGG)*",
+        "ReferenceRegion": "19:29925974-29926466",
+        "VariantType": "Repeat"
+    },
+    {
+        "LocusId": "D22S1045",
+        "LocusStructure": "(ATT)*",
+        "ReferenceRegion": "22:37140171-37140616",
+        "VariantType": "Repeat"
+    }
+]
