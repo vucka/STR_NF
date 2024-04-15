@@ -1,61 +1,42 @@
-# TEMPLATE NEXTFLOW PIPELINE
+# STR detection and reporting pipeline
 
-This is a template repo that will be used for BioX pipelines
+## Introduction
+This pipeline is designed to detect and report STRs using [ExpansionHunter](https://github.com/Illumina/ExpansionHunter), a powerful bioinformatics tool designed to detect repeat expansions from sequencing data.
 
-## Structure:
-    │── configs/ 
-    │     ├── environment.config
-    │     ├── genomes.config
-    │     ├── modules.config
-    │     ├── test.config
-    │── containers/
-    │     ├── Tool_name/
-    │         ├── Dockerfile
-    │── modules/
-    │     ├── module_name/
-    │         ├── main.nf
-    |── src/
-    │     ├── test.py
-    │── tools/
-    │     ├── Submodule_name/
-    │         ├── containters/
-    │         ├── main.nf
-    │
-    │── .gitignore
-    │── README.md
-    │── help.nf
-    │── main.nf
-    │── nextflow.config
+## Pipeline Overview
+The pipeline is structured to convert FASTQ files to BAM format, apply Expansion Hunter to detect specified loci, and finally execute a Python script for report generation.
 
-- <ins>Configs dir:<ins>
+## Pipeline Components
+1. **FASTQ to BAM Conversion:**
+   - The pipeline takes input in FASTQ format
+   - It generates a SAM file
+    - The SAM file is then converted to BAM format and then the BAM file is sorted
 
-    - contains all config files to be used in the pipeline
+2. **Expansion Hunter Analysis:**
+   - After the conversion, Expansion Hunter is utilized for the detection of specified loci
+   - The loci are defined in the Expansion Hunter variant catalog
 
-- <ins>Containers dir:<ins>
-    
-    - contains containers of all tools and Dockerimages to be used in the pipeline
+3. **Report Generation with Python Script:**
+   - Following the Expansion Hunter analysis, a Python script is executed to generate a comprehensive report
 
-- <ins>Modules dir:</ins>
-    
-    - contains all modules to be used in the pipeline
+## Pipeline Parameters
+1. **Input:**
+    - FASTQ reads
+    - FASTA reference file 
+    - Expansion Hunter variant catalog
 
-- <ins>Src dir:</ins>
+2. **Output:**
+    - SAM file
+    - BAM file
+    - JSON file (Expansion Hunter output)
+    - Report in PDF
 
-    - contains external scripts (e.g. R-scripts, python scripts) that will be used in the main pipeline
-    - another option is to do that by dockerizing scripts - the scripts then should be placed in <ins>Containers dir<ins>
+## Running the Pipeline
+```
+nextflow run main.nf -c nextflow.config
+```
 
-- <ins>Tools dir:</ins>
-    
-    - contains all Submodules that will be used in the main pipeline
-    - Adding submodules into tools directory:
-        In order to add tools that are placed in different repo, go into tools directory and type:
+### ** Side note:
+Due to the size of the input files, all fastq file pairs and genome files are not included in this repository. 
 
-    ```
-        git submodule add [link of a tool repo]
-    ```
-
-    - When cloning a git repo locally in order to clone submodules placed in tools directroy run this commands:
-
-    ```
-        git submodule update --init --recursive
-    ```
+Please upload the files in the *input* directory and replace the paths in the `nextflow.config` file with the appropriate paths to the input files.

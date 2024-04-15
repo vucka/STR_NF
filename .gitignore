@@ -5,3 +5,5 @@ results/
 test/bats-*
 test/work/
 test/results/
+input/*.fq.gz
+input/*.fa
