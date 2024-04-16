@@ -16,7 +16,7 @@ The pipeline is structured to convert FASTQ files to BAM format, apply Expansion
    - After the conversion, Expansion Hunter is utilized for the detection of specified loci
    - The loci are defined in the Expansion Hunter variant catalog
 
-3. **Report Generation with Python Script:**
+3. **Report Generation:**
    - Following the Expansion Hunter analysis, a Python script is executed to generate a comprehensive report
 
 ## Pipeline Parameters

@@ -7,13 +7,6 @@ include { SORT_WF } from './modules/samtools/sort/main.nf' params ( params )
 include { EXPANSIONHUNTER_WF } from './modules/expansion_hunter/main.nf' params ( params )
 include { REPORTING_WF } from './modules/reporting/main.nf' params ( params )
 
-
-if ( params.help ) {
-    helpMessage()
-    exit 0
-}
-
-
 workflow STR_WF {
     take:
         ch_reads
