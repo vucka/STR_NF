@@ -10,7 +10,7 @@ The pipeline is structured to convert FASTQ files to BAM format, apply Expansion
 1. **FASTQ to BAM Conversion:**
    - The pipeline takes input in FASTQ format
    - It generates a SAM file
-    - The SAM file is then converted to BAM format and then the BAM file is sorted
+    - The SAM file is then converted to BAM format and sorted
 
 2. **Expansion Hunter Analysis:**
    - After the conversion, Expansion Hunter is utilized for the detection of specified loci
@@ -28,7 +28,7 @@ The pipeline is structured to convert FASTQ files to BAM format, apply Expansion
 2. **Output:**
     - SAM file
     - BAM file
-    - JSON file (Expansion Hunter output)
+    - JSON files
     - Report in PDF
 
 ## Running the Pipeline
