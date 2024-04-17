@@ -8,15 +8,15 @@ process SORT {
         tuple val(sample_name), path(bam)
     
     output:
-        tuple val(sample_name), path("${sample_name}_sorted.bam"), emit: sorted_bam
-        tuple val(sample_name), path("${sample_name}_sorted.bam.bai"), emit: bai
+        tuple val(sample_name), path("${sample_name}.bam"), emit: sorted_bam
+        tuple val(sample_name), path("${sample_name}.bam.bai"), emit: bai
     
     script:
         """
         echo "Converting SAM to BAM ....."
 
-        samtools sort ${sample_name}_unsorted.bam -o ${sample_name}_sorted.bam
-        samtools index ${sample_name}_sorted.bam 
+        samtools sort ${sample_name}_unsorted.bam -o ${sample_name}.bam
+        samtools index ${sample_name}.bam 
 
         echo "BAM file created!"
         """

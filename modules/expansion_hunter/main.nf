@@ -38,7 +38,7 @@ workflow EXPANSIONHUNTER_WF {
 }
 
 workflow {
-    ch_sorted_bam = Channel.fromPath(params.output_dir + "/*_sorted.bam")
+    ch_sorted_bam = Channel.fromPath(params.output_dir + "/${sample_name}.bam")
     ch_fasta = Channel.fromPath(params.fasta)
     ch_variant_catalog = Channel.fromPath(params.variant_catalog)
 
