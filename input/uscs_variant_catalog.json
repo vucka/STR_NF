@@ -7,9 +7,9 @@
     },
     {
         "LocusId": "D3S1358",
-        "LocusStructure": "(TCTA)*",
-        "ReferenceRegion": "3:45540612-45540935",
-        "VariantType": "Repeat"
+        "LocusStructure": "(TCTA)*(TCTG)*",
+        "ReferenceRegion": ["3:45540612-45540935", "3:45540612-45540935"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "FGA",
@@ -37,9 +37,9 @@
     },
     {
         "LocusId": "D8S1179",
-        "LocusStructure": "(TCTA)*",
-        "ReferenceRegion": "8:124894738-124895197",
-        "VariantType": "Repeat"
+        "LocusStructure": "(TCTA)*(TCTG)*",
+        "ReferenceRegion": ["8:124894738-124895197", "8:124894738-124895197"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "TH01",
@@ -49,9 +49,9 @@
     },
     {
         "LocusId": "vWA",
-        "LocusStructure": "TCTA(TCTG)*",
-        "ReferenceRegion": "12:5983825-5984174",
-        "VariantType": "Repeat"
+        "LocusStructure": "TCTA(TCTG)*(TCTA)*",
+        "ReferenceRegion": ["12:5983825-5984174","12:5983825-5984174"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "D13S317",
@@ -73,15 +73,15 @@
     },
     {
         "LocusId": "D21S11",
-        "LocusStructure": "(TCTA)*",
-        "ReferenceRegion": "21:19181866-19182275",
-        "VariantType": "Repeat"
+        "LocusStructure": "(TCTA)*(TCTG)*",
+        "ReferenceRegion": ["21:19181866-19182275","21:19181866-19182275"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "D1S1656",
-        "LocusStructure": "(TAGA)*",
-        "ReferenceRegion": "1:230769329-230769904",
-        "VariantType": "Repeat"
+        "LocusStructure": "(TAGA)*(TAGG)*",
+        "ReferenceRegion": ["1:230769329-230769904", "1:230769329-230769904"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "D2S441",
@@ -91,9 +91,9 @@
     },
     {
         "LocusId": "D2S1338",
-        "LocusStructure": "(TGCC)*",
-        "ReferenceRegion": "2:218014601-218015031",
-        "VariantType": "Repeat"
+        "LocusStructure": "(TGCC)*(TTCC)*",
+        "ReferenceRegion": ["2:218014601-218015031", "2:218014601-218015031"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "D10S1248",
@@ -103,9 +103,9 @@
     },
     {
         "LocusId": "D12S391",
-        "LocusStructure": "(AGAT)*",
-        "ReferenceRegion": "12:12296826-12297399",
-        "VariantType": "Repeat"
+        "LocusStructure": "(AGAT)*(AGAC)*",
+        "ReferenceRegion": ["12:12296826-12297399", "12:12296826-12297399"],
+        "VariantType": ["Repeat", "Repeat"]
     },
     {
         "LocusId": "D19S433",

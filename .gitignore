@@ -1,6 +1,8 @@
 .nextflow*
 work/
 results/
+results_1/
+Stephens_1x_2x_3x_data/
 .DS_Store
 test/bats-*
 test/work/
