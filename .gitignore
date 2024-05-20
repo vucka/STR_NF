@@ -9,3 +9,5 @@ test/work/
 test/results/
 input/*.fq.gz
 input/*.fa
+input/*.fastq
+input/*.fastq.gz

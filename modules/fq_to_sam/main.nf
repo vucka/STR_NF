@@ -62,7 +62,8 @@ workflow FQ_TO_SAM_WF{
 }
 
 workflow {
-  ch_reads = Channel.fromFilePairs(params.fastq_pairs + '/*_R{1,2}.fq.gz', size: -1)
+  // ch_reads = Channel.fromFilePairs(params.fastq_pairs + '/*_R{1,2}.fq.gz', size: -1)
+  ch_reads = Channel.fromFilePairs(params.fastq_pairs + '/*_R{1,2}.fastq.gz', size: -1)
   ch_fasta = Channel.fromPath(params.fasta)
   
 
