@@ -38,7 +38,8 @@ workflow STR_WF {
 }
 
 workflow {
-    ch_reads = Channel.fromFilePairs(params.fastq_pairs + '/*_R{1,2}.fq.gz', size: -1)
+    // ch_reads = Channel.fromFilePairs(params.fastq_pairs + '/*_R{1,2}.fq.gz', size: -1)
+    ch_reads = Channel.fromFilePairs(params.fastq_pairs + '/*_R{1,2}.fastq.gz', size: -1)
     ch_fasta = Channel.fromPath(params.fasta)
     ch_variant_catalog = Channel.fromPath(params.variant_catalog)
     ch_sam = Channel.fromPath(params.output_dir + "/*.sam")
