@@ -20,38 +20,41 @@ COLORS_TO_USE_CONTINUOUS = px.colors.sequential.Blues
 
 
 def modify_df(func):
-    def wrap(df, *args, **kwargs):
+    def wrap(df, *args, do_genotyping=False, **kwargs):
         df = df.assign(
             Chromosome=df["Reference Region"].str.extract(r"(\d+):").astype("Int64"),
             Chromosome_str=df["Reference Region"].str.extract(r"(chr\d+):"),
             Position=df["Reference Region"].str.extract(r"-(\d+)").astype("Int64"),
             Start_End_Position=df["Reference Region"].str.extract(r"(\d+-\d+)"),
             Locus_ID_Repeat=df["Locus ID"].str.cat(df["Repeat Unit"], sep=": "),
-            Genotype_repeat_allele_1=df["Genotype"]
-            .str.extract(r"(\d+)/")
-            .astype("Int64"),
-            Genotype_repeat_allele_2=df["Genotype"]
-            .str.extract(r"/(\d+)")
-            .astype("Int64"),
-            confidence_interval_min_1=df["Genotype Confidence Interval"]
-            .str.extract(r"(\d+)-")
-            .astype("Int64"),
-            confidence_interval_max_1=df["Genotype Confidence Interval"]
-            .str.extract(r"-(\d+)/")
-            .astype("Int64"),
-            confidence_interval_min_2=df["Genotype Confidence Interval"]
-            .str.extract(r"/(\d+)-")
-            .astype("Int64"),
-            confidence_interval_max_2=df["Genotype Confidence Interval"]
-            .str.extract(r"-(\d+)$")
-            .astype("Int64"),
         )
         df = df.assign(
             Locus_ID_Chromosome=df["Locus ID"].str.cat(df["Chromosome_str"], sep=": "),
-            Locus_ID_Repeat_Genotype=df["Locus_ID_Repeat"].str.cat(
-                df["Genotype"], sep=" - "
-            ),
         )
+        if do_genotyping:
+            df = df.assign(
+                Genotype_repeat_allele_1=df["Genotype"]
+                .str.extract(r"(\d+)/")
+                .astype("Int64"),
+                Genotype_repeat_allele_2=df["Genotype"]
+                .str.extract(r"/(\d+)")
+                .astype("Int64"),
+                confidence_interval_min_1=df["Genotype Confidence Interval"]
+                .str.extract(r"(\d+)-")
+                .astype("Int64"),
+                confidence_interval_max_1=df["Genotype Confidence Interval"]
+                .str.extract(r"-(\d+)/")
+                .astype("Int64"),
+                confidence_interval_min_2=df["Genotype Confidence Interval"]
+                .str.extract(r"/(\d+)-")
+                .astype("Int64"),
+                confidence_interval_max_2=df["Genotype Confidence Interval"]
+                .str.extract(r"-(\d+)$")
+                .astype("Int64"),
+                Locus_ID_Repeat_Genotype=df["Locus_ID_Repeat"].str.cat(
+                    df["Genotype"], sep=" - "
+                ),
+            )
         df = df.sort_values(["Coverage"], ascending=False)
         # print(df.head(20))
         # df = df.head(20)
@@ -62,7 +65,7 @@ def modify_df(func):
 
 
 @modify_df
-def get_fig1(df, colors=COLORS_TO_USE_CONTINUOUS):
+def get_fig1(df, colors=COLORS_TO_USE_CONTINUOUS, do_genotyping=False):
     fig = px.bar(
         df,
         x="Locus_ID_Repeat",
@@ -120,7 +123,7 @@ def get_fig1(df, colors=COLORS_TO_USE_CONTINUOUS):
 
 
 @modify_df
-def get_fig2(df, colors=COLORS_TO_USE_CONTINUOUS):
+def get_fig2(df, colors=COLORS_TO_USE_CONTINUOUS, do_genotyping=False):
     PADDING = 15
     df.sort_values(by=["Coverage"], inplace=True)
     minimum_coverage = max(0, df["Coverage"].min() - PADDING)
@@ -193,12 +196,12 @@ def get_fig2(df, colors=COLORS_TO_USE_CONTINUOUS):
 
 
 @modify_df
-def get_fig3(df, colors=COLORS_TO_USE_DISCRETE):
+def get_fig3(df, colors=COLORS_TO_USE_DISCRETE, do_genotyping=False):
     fig = px.scatter(
         df,
         x="Fragment Length",
         y="Coverage",
-        color="Locus_ID_Repeat_Genotype",
+        color="Locus_ID_Repeat_Genotype" if do_genotyping else "Locus_ID_Repeat",
         size=df["Repeat Unit"].apply(lambda x: 0.001 * (len(x) ** 2)),
         # text="Locus_ID_Repeat",
         color_discrete_sequence=colors,
@@ -206,10 +209,18 @@ def get_fig3(df, colors=COLORS_TO_USE_DISCRETE):
     fig.update_traces(textposition="top center", cliponaxis=False)
     # fig.update_traces(textfont_size=12, textposition="top center", cliponaxis=False)
     fig.update_layout(
-        title="Coverage by Fragment Length (Color: Genotype, Size: Repeat Unit)",
+        title=(
+            "Coverage by Fragment Length (Color: Genotype, Size: Repeat Unit)"
+            if do_genotyping
+            else "Coverage by Fragment Length (Size: Repeat Unit)"
+        ),
         xaxis_title="Fragment Length",
         yaxis_title="Coverage",
-        legend_title="Locus ID: Repeat Unit - Genotype",
+        legend_title=(
+            "Locus ID: Repeat Unit - Genotype"
+            if do_genotyping
+            else "Locus ID: Repeat Unit"
+        ),
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
     )
@@ -217,31 +228,37 @@ def get_fig3(df, colors=COLORS_TO_USE_DISCRETE):
 
 
 @modify_df
-def get_fig4(df, color_scale=COLORS_TO_USE_DISCRETE):
+def get_fig4(df, color_scale=COLORS_TO_USE_DISCRETE, do_genotyping=False):
 
     repeat_units = list(df["Repeat Unit"].unique())
     # combine Locus ID and Genotype to one string for labels
-
     from collections import defaultdict
 
-    r_colors = ["/"] * len(repeat_units)
-    l_colors = df["Genotype"].to_list()
+    if not do_genotyping:
+        df["Locus_ID_Chromosome"] = (
+            df["Locus_ID_Chromosome"]
+            + "<br>Coverage= "
+            + round(df["Coverage"], 4).astype(str)
+        )
+    else:
+        r_colors = ["/"] * len(repeat_units)
+        l_colors = df["Genotype"].to_list()
 
-    col_dict = {}
-    counter = 0
-    for i, genotype in enumerate(reversed(r_colors + l_colors)):
-        if genotype not in col_dict:
-            col_dict[genotype] = counter
-            counter += 1
+        df["Locus_ID_Chromosome"] = (
+            df["Locus_ID_Chromosome"]
+            + "<br>Genotype= "
+            + df["Genotype"]
+            + "<br>Coverage= "
+            + round(df["Coverage"], 4).astype(str)
+        )
+        col_dict = {}
+        counter = 0
+        for i, genotype in enumerate(reversed(r_colors + l_colors)):
+            if genotype not in col_dict:
+                col_dict[genotype] = counter
+                counter += 1
 
-    colors = [col_dict[genotype] for genotype in r_colors + l_colors]
-    df["Locus_ID_Chromosome"] = (
-        df["Locus_ID_Chromosome"]
-        + "<br>Genotype= "
-        + df["Genotype"]
-        + "<br>Coverage= "
-        + round(df["Coverage"], 4).astype(str)
-    )
+        colors = [col_dict[genotype] for genotype in r_colors + l_colors]
 
     labels = repeat_units + df["Locus_ID_Chromosome"].to_list()
     parents = [""] * len(repeat_units) + df["Repeat Unit"].to_list()
@@ -259,16 +276,20 @@ def get_fig4(df, color_scale=COLORS_TO_USE_DISCRETE):
                     color=PRIMARY_COLOR,
                     width=0.5,
                 ),
-                colors=colors,
+                colors=colors if do_genotyping else None,
                 colorscale="Blues",
             ),
         ),
         layout=go.Layout(
-            title="Coverage by Repeat Unit (Color: Genotype)",
+            title=(
+                "Coverage by Repeat Unit (Color: Genotype)"
+                if do_genotyping
+                else "Coverage by Repeat Unit"
+            ),
             paper_bgcolor="rgba(0,0,0,0)",
             plot_bgcolor="rgba(0,0,0,0)",
-            width=800,
-            height=800,
+            # width=300,
+            # height=300,
         ),
     )
 
@@ -276,7 +297,7 @@ def get_fig4(df, color_scale=COLORS_TO_USE_DISCRETE):
 
 
 @modify_df
-def get_fig5(df, colors=COLORS_TO_USE_DISCRETE):
+def get_fig5(df, colors=COLORS_TO_USE_DISCRETE, do_genotyping=False):
     new_df = (
         df.groupby(
             [
@@ -333,7 +354,7 @@ def get_fig5(df, colors=COLORS_TO_USE_DISCRETE):
 
 
 @modify_df
-def get_fig6(df, colors=COLORS_TO_USE_DISCRETE):
+def get_fig6(df, colors=COLORS_TO_USE_DISCRETE, do_genotyping=False):
     new_df = (
         df.groupby(
             [
@@ -431,7 +452,7 @@ def get_fig6(df, colors=COLORS_TO_USE_DISCRETE):
 
 
 @modify_df
-def get_fig7(df, colors=COLORS_TO_USE_DISCRETE):
+def get_fig7(df, colors=COLORS_TO_USE_DISCRETE, do_genotyping=False):
 
     new_df = (
         df.groupby(

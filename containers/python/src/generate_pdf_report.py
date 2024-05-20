@@ -1,5 +1,5 @@
-import sys
 import json
+import sys
 from functools import reduce
 
 import pandas as pd
@@ -22,20 +22,19 @@ Data import and manipulation
 """
 
 
-
-
-def generate(input, output):
+def generate(input, output, do_genotyping):
 
     with open(input, "r") as fp:
         input_data = json.load(fp)
-
-
 
     metadata = input_data["Metadata"]
     varaints_data = input_data["Locus Results"]
 
     # df = pd.DataFrame(varaints_data).head(20)
     df = pd.DataFrame(varaints_data)
+    if not do_genotyping:
+        df = df.drop("Genotype", axis=1)
+        df = df.drop("Genotype Confidence Interval", axis=1)
 
     df["Coverage"] = df["Coverage"].map(lambda x: round(x, 4))
 
@@ -87,13 +86,14 @@ def generate(input, output):
     # content.append(Spacer(1, 36))
 
     # Add a title
-    content.append(Paragraph("First Report", title_style))
+    content.append(Paragraph("STR Report", title_style))
     content.append(Spacer(1, 12))
 
     # Add a section with subtitle and a paragraph
     content.append(Paragraph("Overview", subtitle_style))
     intro_text = (
-        "This document itemizes STR genotypes generated using DRAGEN's ExpansionHunter genotyping tool for the following STR Loci: "
+        "This document itemizes STRs generated using Illumina's ExpansionHunter tool for the following STR Loci: "
+        # "This document itemizes STR genotypes generated using DRAGEN's ExpansionHunter genotyping tool for the following STR Loci: "
         + ", ".join(
             df["Locus ID"].unique()
         )  # TODO: Check if this is correct sort order
@@ -157,11 +157,14 @@ def generate(input, output):
             .drop(["chr_num", "start_pos"], axis=1),
             "Sorted by Reference Region",
         ),
-        (
-            df.sort_values("Genotype", ascending=False),
-            "Sorted by Genotype",
-        ),
     ]
+    if do_genotyping:
+        tables_scheme += [
+            (
+                df.sort_values("Genotype", ascending=False),
+                "Sorted by Genotype",
+            )
+        ]
 
     for i, (table_df, title) in enumerate(tables_scheme):
         # Convert DataFrame to a list of lists for ReportLab
@@ -181,10 +184,12 @@ def generate(input, output):
 
     from plots import get_fig1, get_fig2, get_fig3, get_fig4, get_fig5, get_fig6
 
+    figure_functions = [get_fig1, get_fig3, get_fig2, get_fig4]
+    if do_genotyping:
+        figure_functions += [get_fig5, get_fig6]
     with TemporaryDirectory() as tmpdir:
-
-        for func in [get_fig1 , get_fig3, get_fig2, get_fig4, get_fig5, get_fig6]:
-            plotly_fig = func(df)
+        for func in figure_functions:
+            plotly_fig = func(df, do_genotyping=do_genotyping)
             filename = f"{tmpdir}/{func.__name__}.svg"
             plotly_fig.write_image(filename, format="svg")
             fig = svg2rlg(filename)
@@ -232,13 +237,21 @@ def generate(input, output):
 #     for report in reports:
 #         generate(*report)
 
+
 def main():
     input = sys.argv[1]
     output = sys.argv[2]
+    do_genotyping = sys.argv[3]
+    if do_genotyping in ["true", "True", "1"]:
+        do_genotyping = True
+    else:
+        do_genotyping = False
+
     # print(1/0) PUKLO
-    generate(input, output)
+    generate(input, output, do_genotyping)
     # print(1/0) NIJE PUKLO
-    
+
+
 if __name__ == "__main__":
     main()
 
@@ -262,5 +275,3 @@ if __name__ == "__main__":
 
 #     for report in reports:
 #         generate(report)
-
-
