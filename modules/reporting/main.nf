@@ -35,7 +35,7 @@ process REPORTING {
         """
         echo "Generating STR report ....."
 
-        python3 ~/../bin/generate_pdf_report.py ${sample_name}_reporting.json ${sample_name}_report.pdf
+        python3 ~/../bin/generate_pdf_report.py ${sample_name}_reporting.json ${sample_name}_report.pdf false
         
         echo "STR report generated!"
         """
